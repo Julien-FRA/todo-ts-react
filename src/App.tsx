@@ -1,12 +1,13 @@
 import React from "react";
 import { Header } from "./components/inc/Header";
-import Task from "./components/task/ListTask";
+import Router from "./Router";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Task />
+      <Router />
     </div>
   );
 }
