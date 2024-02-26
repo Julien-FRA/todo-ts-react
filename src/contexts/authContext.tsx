@@ -11,7 +11,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: any) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const [loading, setLoadin] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, initializeUser);
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: any) => {
       setCurrentUser(null);
       setUserLoggedIn(false);
     }
-    setLoadin(false);
+    setLoading(false);
   };
 
   const value = {
