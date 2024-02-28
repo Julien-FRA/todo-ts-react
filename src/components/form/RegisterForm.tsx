@@ -1,30 +1,33 @@
 import React, { useState } from "react";
 import { Alert, Button, Container, Form } from "react-bootstrap";
 import { userSignUp } from "../../utils/api/user.api";
-import { redirect } from "react-router-dom";
+import { Navigate, redirect } from "react-router-dom";
 
 const RegisterForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isSignIn, setIsSignIn] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
-  const [error, setError] = useState<boolean>(false);
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     const form = e.target;
 
-    if (!isSignIn) {
+    if (!isSignUp) {
       await userSignUp({ email, password })
-        .then(() => setIsSignIn(true))
-        .catch((err) => console.log(err));
+        .then(() => setIsSignUp(true))
+        .catch(() => setErrorMessage("Echec lors du register"));
     }
+
+    form.reset();
   };
 
   return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
+    <>
+      {isSignUp && <Navigate to={"/login"} replace={true} />}
+      <h1 className="m-5">Page register</h1>
+      <Form className="m-5" onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="email">Email address</Form.Label>
           <Form.Control
@@ -46,12 +49,12 @@ const RegisterForm = () => {
             placeholder="Password"
           />
         </Form.Group>
-        {isSignIn && <Alert variant="success">Insciption validé</Alert>}
+        {!isSignUp && <div className="my-3">{errorMessage}</div>}
         <Button variant="primary" type="submit">
           Submit
         </Button>
       </Form>
-    </Container>
+    </>
   );
 };
 
